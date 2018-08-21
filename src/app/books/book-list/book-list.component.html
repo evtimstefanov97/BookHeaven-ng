@@ -1,11 +1,24 @@
-<div style="height: '1000px'">
-  <div *ngFor="let item of books | async; let i = index">
-    <div *ngIf="i % 3 == 0" class="row">
-      <div *ngFor="let number of [0,1,2]">
-        <app-book-preview [model]="item" (blurEvent)="blurrBooks($event)" [shouldBlur]="shouldBooksBlurr">
+<div style="height: '1000px'" class="container customContainer">
+  <ngx-loading [show]="showLoading" [config]="{ 
+      backdropBorderRadius: '14px', 
+      backdropBackgroundColour: 'rgba(0,0,0,0.87)',
+      fullScreenBackdrop: 'true',
+      backdropBorderRadius: '10px',
+      primaryColour: '#ffffff', 
+      secondaryColour: '#ffffff', 
+      tertiaryColour: '#ffffff'
+   }">
+  </ngx-loading>
+  <div class="row" [class.visible]="contentPrinted" [@stagger]>
+    <div *ngFor="let item of books | async;let last = last;trackBy:tbFn">
+      <app-book-preview [@fade] [model]="item" (blurEvent)="blurrBooks($event)" [shouldBlur]="shouldBooksBlurr">
 
-        </app-book-preview>
-      </div>
+      </app-book-preview>
+
+      <ng-container *ngIf="last && !contentPrinted">
+        {{ onContentPrinted() }}
+      </ng-container>
     </div>
+
   </div>
 </div>

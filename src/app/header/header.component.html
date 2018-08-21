@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-dark default" style="background-color: white">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" routerLink="/books">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li *ngIf="!authService.isAuthenticated()" class="nav-item">
+      <li *ngIf="!getAuth()" class="nav-item">
         <a class="nav-link" routerLink="/auth/signin">Sign In</a>
       </li>
-      <li *ngIf="!authService.isAuthenticated()" class="nav-item">
+      <li *ngIf="!getAuth()" class="nav-item">
         <a class="nav-link" routerLink="/auth/signup">Sign Up</a>
       </li>
       <li *ngIf="getAuth()" class="nav-item">
@@ -20,7 +20,7 @@
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
         <div [class]="dropdownMenuUser" aria-labelledby="dropdown01">
           <a class="dropdown-item" routerLink="/books/list">All Books</a>
-          <a *ngIf="getAuth()" class="dropdown-item" routerLink="/recipes/create">Add new</a>
+          <a *ngIf="getAuth()" class="dropdown-item" routerLink="/books/create">Add new</a>
         </div>
       </li>
       <li *ngIf="getAdmin()" (click)="expandAdmin($event)" [class]="dropdownLiAdmin">

@@ -12,10 +12,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { BookStartComponent } from './books/book-start/book-start.component';
 import { BookListComponent } from './books/book-list/book-list.component';
 import { BookPreviewComponent } from './books/book-preview/book-preview.component';
+import { BookCreateComponent } from './books/book-create/book-create.component';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent, BookStartComponent, BookListComponent, BookPreviewComponent
+    AppComponent, HeaderComponent, BookStartComponent, BookListComponent, BookPreviewComponent, BookCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,16 @@ import { BookPreviewComponent } from './books/book-preview/book-preview.componen
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    VirtualScrollModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.wanderingCubes,
+      backdropBackgroundColour: 'rgba(0,0,0,0.1)',
+      backdropBorderRadius: '4px',
+      primaryColour: '#ffffff',
+      secondaryColour: '#ffffff',
+      tertiaryColour: '#ffffff'
+    })
   ],
   providers: [
     {

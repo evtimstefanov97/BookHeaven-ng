@@ -12,7 +12,7 @@ export class BookStartComponent implements OnInit {
 
   ngOnInit() {
   }
-  getAuth(): boolean {
+  getAuth() {
     return this.authService.isAuthenticated();
   }
 }

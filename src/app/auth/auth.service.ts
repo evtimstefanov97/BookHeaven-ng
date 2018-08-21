@@ -16,8 +16,17 @@ const adminUrl = 'https://book-heaven.firebaseio.com/userAdmins/';
 export class AuthService {
   token: string;
   admin: boolean = false;
+  user: boolean = false;
 
-  constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) { }
+  constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) {
+    if (localStorage.getItem('token')) {
+      this.token = localStorage.getItem('token')
+    }
+    if (localStorage.getItem('admin')) {
+      this.admin = true
+    }
+
+  }
 
   signUp(email: string, password: string) {
     firebase
@@ -33,24 +42,30 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(data => {
-        firebase
-          .auth()
-          .currentUser.getIdToken()
-          .then((token: string) => {
-            this.token = token;
-          })
-          .then(async () => {
-            await this.isAdmin();
-            this.toastr.success("Logged In", "Success");
-          })
-      })
-      .catch(err => {
-        this.toastr.error(err.message, "Warning");
-      });
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then((value) => {
+      debugger;
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(data => {
+          firebase
+            .auth()
+            .currentUser.getIdToken()
+            .then((token: string) => {
+              this.token = token;
+              this.router.navigate(["/books/list"])
+            })
+            .then(async () => {
+              await this.isAdmin();
+              localStorage.setItem('admin', 'true');
+              this.toastr.success("Logged In", "Success");
+            })
+        })
+        .catch(err => {
+          this.toastr.error(err.message, "Warning");
+        });
+    })
+
   }
 
   logout() {
@@ -60,22 +75,44 @@ export class AuthService {
       .then(() => {
         this.router.navigate(["/auth/signin"]);
         this.token = null;
+        this.admin = false;
+        this.user = false;
+        localStorage.clear();
       });
   }
 
   getToken() {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token: string) => {
-        this.token = token;
-      });
+    if (firebase.auth().currentUser) {
+      firebase
+        .auth()
+        .currentUser.getIdToken()
+        .then((token: string) => {
+          this.token = token;
+        });
+    } else {
+      return undefined;
+    }
+
 
     return this.token;
   }
 
-  isAuthenticated(): boolean {
-    return this.token != null;
+  isAuthenticated() {
+    let currentUser = !!firebase.auth().currentUser;
+
+    return this.token != null || currentUser
+  }
+  getCurrentUser() {
+    return new Promise((resolve, reject) => {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.user = true;
+        } else {
+          this.user = false;
+        }
+        resolve(user);
+      }, reject);
+    });
   }
   async isAdmin() {
     await this.http.get(`${adminUrl}.json`)
@@ -91,4 +128,5 @@ export class AuthService {
       })
 
   }
+
 }

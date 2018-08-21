@@ -1,21 +1,21 @@
-<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 customCard">
+<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 customCard">
   <div *ngIf="isHovered">
-    <img src="{{this.model.imageUrl}}" class="bookImageHover" />
+    <img src="{{this.model.ImageUrl}}" class="bookImageHover" />
   </div>
   <a routerLink="/books/details/{{model.id}}">
     <div #captionHover class="thumbnail" [ngStyle]="{'opacity':shouldBlur ? '0.5':'1'}" (mouseover)="mouseOver()">
       <div class="caption" style="z-Index: 0">
         <h3 class="bookTitle">
-          {{model.title}}
+          {{model.Title}}
         </h3>
-        <small>Author: {{model.author}}</small>
+        <small>Author: {{model.Author}}</small>
         <hr />
         <p class="max-lines">
-          {{model.description}}
+          {{model.Description}}
         </p>
         <hr />
         <p style="height: 40px">
-          <b>Released</b>: {{model.published}}
+          <b>Released</b>: {{model.Published}}
         </p>
         <hr />
       </div>

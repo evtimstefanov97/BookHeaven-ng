@@ -13,10 +13,15 @@ export class HeaderComponent implements OnInit {
   dropdownMenuUser: string = "dropdown-menu";
   dropdownMenuAdmin: string = "dropdown-menu";
 
+  isAuthenticated: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
 
-  ngOnInit() {
+  }
+
+  async ngOnInit() {
+
+
   }
 
 
@@ -61,12 +66,12 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
 
-  getAuth(): boolean {
-    return this.authService.isAuthenticated();
+  getAuth() {
+    return this.authService.isAuthenticated()
   }
 
   getAdmin(): boolean {
-    return this.authService.admin;
+    return this.authService.admin
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.closeAll();

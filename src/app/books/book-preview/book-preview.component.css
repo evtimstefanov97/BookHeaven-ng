@@ -98,4 +98,11 @@
     -o-transition: 0.3s;
     transition: 0.3s;
     }
-    
+    .max-lines {
+      display: block; /* or inline-block */
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      overflow: hidden;
+      height: 267px;
+      line-height: 1.8em;
+    }

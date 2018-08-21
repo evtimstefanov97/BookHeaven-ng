@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form #f="ngForm" (ngSubmit)="create()">
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
+              <label for="name">Title</label>
+              <input required type="text" id="title" name="title" [(ngModel)]="bindingModel.Title" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
+              <label for="name">Author</label>
+              <input required type="text" id="author" name="author" [(ngModel)]="bindingModel.Author" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
+              <textarea required type="text" id="description" class="form-control" name="description" [(ngModel)]="bindingModel.Description"
+                rows="8"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
+              <label for="name">Published</label>
+              <input required type="text" id="published" name="published" [(ngModel)]="bindingModel.Published" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
+              <label for="imagePath">Image URL</label>
+              <input required type="text" id="imagePath" name="imagePath" [(ngModel)]="bindingModel.ImageUrl" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <img src="{{bindingModel.ImageUrl}}" class="img-responsive">
+          </div>
+        </div>
+        <hr>
+        <button class="btn btn-primary" [disabled]="f.invalid" type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+</div>

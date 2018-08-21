@@ -1,10 +1,10 @@
 export class BookModel {
     constructor(
-        public title: string,
-        public description: string,
-        public author: string,
-        public published: string,
-        public imageUrl: string,
+        public Title: string,
+        public Description: string,
+        public Author: string,
+        public Published: string,
+        public ImageUrl: string,
         public id?: string,
     ) { }
 }

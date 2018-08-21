@@ -1,10 +1,11 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { BookModel } from '../models/BookModel';
 
 @Component({
   selector: 'app-book-preview',
   templateUrl: './book-preview.component.html',
-  styleUrls: ['./book-preview.component.css']
+  styleUrls: ['./book-preview.component.css'],
 })
 export class BookPreviewComponent implements OnInit {
 

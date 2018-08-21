@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
   }
 
   check(): boolean {
-    if (this.authService.isAuthenticated() || this.authService.admin) {
+    if (this.authService.isAuthenticated() || this.authService.admin || localStorage.getItem("token")) {
       return true;
     }
 
