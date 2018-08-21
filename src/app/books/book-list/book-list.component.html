@@ -1,0 +1,11 @@
+<div style="height: '1000px'">
+  <div *ngFor="let item of books | async; let i = index">
+    <div *ngIf="i % 3 == 0" class="row">
+      <div *ngFor="let number of [0,1,2]">
+        <app-book-preview [model]="item" (blurEvent)="blurrBooks($event)" [shouldBlur]="shouldBooksBlurr">
+
+        </app-book-preview>
+      </div>
+    </div>
+  </div>
+</div>

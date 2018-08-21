@@ -1,0 +1,12 @@
+<div class="jumbotron">
+  <h1  class="display-4">Hello, dear book lover!</h1>
+  <p class="lead">This is a place for all book enthusiasts to add new books to our collection and share thoughts certain
+    reads.
+  </p>
+  <hr class="my-4">
+  <p>You can add, edit, delete, rate or comment books, added by other readers</p>
+  <p *ngIf="!getAuth()" class="lead">
+    <a class="btn btn-primary btn-lg" routerLink="/auth/signup" role="button">Sign Up</a> |
+    <a class="btn btn-primary btn-lg" routerLink="/auth/signin" role="button">Sing In</a>
+  </p>
+</div>
