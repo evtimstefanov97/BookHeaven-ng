@@ -15,10 +15,19 @@ import { BookPreviewComponent } from './books/book-preview/book-preview.componen
 import { BookCreateComponent } from './books/book-create/book-create.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { BookEditComponent } from "./books/book-edit/book-edit.component";
+import { BookDetailsComponent } from './books/book-details/book-details.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent, BookStartComponent, BookListComponent, BookPreviewComponent, BookCreateComponent
+    AppComponent,
+    HeaderComponent,
+    BookStartComponent,
+    BookListComponent,
+    BookPreviewComponent,
+    BookCreateComponent,
+    BookEditComponent,
+    BookDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,5 @@
+import { BookDetailsComponent } from './books/book-details/book-details.component';
+import { BookEditComponent } from './books/book-edit/book-edit.component';
 import { BookCreateComponent } from './books/book-create/book-create.component';
 import { BookListComponent } from './books/book-list/book-list.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
@@ -19,8 +21,8 @@ const routes: Route[] = [
         path: 'books', children: [
             { path: '', pathMatch: 'full', component: BookStartComponent },
             { path: 'create', pathMatch: 'full', component: BookCreateComponent, canActivate: [AuthGuard] },
-            //  { path: 'details/:id', pathMatch: 'full', component: BookDetailsComponent },
-            //  { path: 'edit', pathMatch: 'full', component: BookEditComponent },
+            { path: 'details/:id', pathMatch: 'full', component: BookDetailsComponent, canActivate: [AuthGuard] },
+            { path: 'edit/:id', pathMatch: 'full', component: BookEditComponent, canActivate: [AuthGuard] },
             { path: 'list', pathMatch: 'full', component: BookListComponent, canActivate: [AuthGuard] }
         ]
     },
