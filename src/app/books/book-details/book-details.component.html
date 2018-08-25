@@ -30,19 +30,40 @@
         <div class="col-6" style="margin-left: 25%">
           <div class="form-group">
             <label for="name">Published</label>
-            <span id="published" name="published" class="form-control">{{bindingModel.Published}}</span>>
+            <span id="published" name="published" class="form-control">{{bindingModel.Published}}</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-6" style="margin-left: 25%">
-          <label for="name">Image URL</label>
-          <img id="imagePath" name="imagePath" src="{{bindingModel.ImageUrl}}" class="img-responsive">
+          <div class="form-group">
+            <label for="name">Genre</label>
+            <ng-select [items]="genres$ | async" name="genres" bindLabel="name" bindValue="name" [(ngModel)]="bindingModel.Genre">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6" style="margin-left: 25%">
+          <div class="form-group">
+
+            <label for="name">Image URL</label>
+            <img id="imagePath" name="imagePath" src="{{bindingModel.ImageUrl}}" class="img-responsive form-control" style="height: 100%">
+          </div>
         </div>
       </div>
       <hr>
-      <button class="btn btn-primary" routerLink="/books/edit/{{id}}">Edit</button>
-      <button class="btn btn-danger" (click)="delete()">Delete</button>
+      <button *ngIf="isCreator() || isAdmin()" class="btn btn-primary" routerLink="/books/edit/{{id}}">Edit</button>
+      <span *ngIf="isCreator() || isAdmin()">
+        |
+      </span>
+      <button *ngIf="isCreator() || isAdmin()" class="btn btn-danger" (click)="delete()">Delete</button>
+
+      <span *ngIf="isCreator() || isAdmin()">
+        |
+      </span>
+      <button class="btn btn-primary" routerLink="/books/list">Back</button>
+      <hr>
     </div>
   </div>
 </div>

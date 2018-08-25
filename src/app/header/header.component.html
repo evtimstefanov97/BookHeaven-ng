@@ -16,7 +16,7 @@
       <li *ngIf="getAuth()" class="nav-item">
         <a class="nav-link" (click)="logout()">Logout</a>
       </li>
-      <li *ngIf="getAuth()" (click)="expandUser($event)" [class]="dropdownLiUser">
+      <li (click)="expandUser($event)" [class]="dropdownLiUser">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Books</a>
         <div [class]="dropdownMenuUser" aria-labelledby="dropdown01">
           <a class="dropdown-item" routerLink="/books/list">All Books</a>
@@ -26,7 +26,7 @@
       <li *ngIf="getAdmin()" (click)="expandAdmin($event)" [class]="dropdownLiAdmin">
         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
         <div [class]="dropdownMenuAdmin" aria-labelledby="dropdown01">
-          <a class="dropdown-item" routerLink="/users/list">All Users</a>
+          <a class="dropdown-item" routerLink="/admin/users">All Users</a>
         </div>
       </li>
     </ul>

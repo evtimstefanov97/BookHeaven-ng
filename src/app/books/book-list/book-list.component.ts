@@ -1,10 +1,8 @@
-import { animateChild, keyframes, stagger, useAnimation } from '@angular/animations';
-import { animate, animation, query, style, transition, trigger } from '@angular/animations';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { BookModel } from '../models/BookModel';
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { BooksService } from '../books.service';
-import { delay } from 'rxjs/operators';
 
 
 @Component({
@@ -12,53 +10,90 @@ import { delay } from 'rxjs/operators';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css'],
   animations: [
-    trigger('fade', [
-      transition(':enter',
-        [style({ opacity: 0 }), animate('0.9s ease')]
-      )
-    ]),
-    trigger('stagger', [
-      transition(':enter', [
-        query(':enter', stagger('0.5s', [animateChild()]), { optional: true })
+    trigger('listAnimation', [
+      transition('* => *', [ // each time the binding value changes
+        query(':leave', [
+          stagger(100, [
+            animate('0.5s', style({ opacity: 0 }))
+          ])
+        ], { optional: true }),
+        query(':enter', [
+          style({ opacity: 0 }),
+          stagger(100, [
+            animate('0.5s', style({ opacity: 1 }))
+          ])
+        ], { optional: true })
       ])
     ])
-  ]
+  ],
 })
-export class BookListComponent implements OnInit {
-  books: Observable<BookModel[]>
+export class BookListComponent implements OnInit, OnDestroy {
+  books: BookModel[] = new Array<BookModel>();
+  items = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10];
   viewPortItems = new Array<any>();
   rows: number;
   length: number;
-  shouldBooksBlurr: boolean = false;
+  genres$: Observable<string[]>;
+  bookSubscription: Subscription = new Subscription();
   booksLoaded: boolean = false;
   showLoading: boolean = true;
   contentPrinted: boolean = false;
 
-  constructor(private booksServce: BooksService) {
+  constructor(private booksService: BooksService, private changeDetector: ChangeDetectorRef) {
 
   }
 
 
-
+  ngOnDestroy() {
+    this.bookSubscription.unsubscribe();
+  }
   async ngOnInit() {
-    this.books = await this.booksServce.getAllBooks();
-    this.books.subscribe(data => {
-      this.rows = Math.ceil(data.length);
-      this.length = data.length;
-    })
+    this.genres$ = await this.booksService.getAllGenres();
+    this.bookSubscription = this.booksService.getAllBooks()
+      .subscribe(result => {
+        result.map((book: BookModel) => {
+          this.books.push(book);
+        })
+        this.length = result.length;
+        this.booksLoaded = true;
+        this.showLoading = false;
+        this.changeDetector.detectChanges();
+      })
   }
+
+
   tbFn(index, item) {
     return item.id;
   }
-  onContentPrinted() {
-    this.contentPrinted = true;
-    this.showLoading = false;
-  }
-  blurrBooks(event: boolean) {
-    if (event) {
-      this.shouldBooksBlurr = true;
+  // blurrBooks(event: boolean) {
+  //   if (event) {
+  //     this.shouldBooksBlurr = true;
+  //   } else {
+  //     this.shouldBooksBlurr = false;
+  //   }
+  // }
+  getByGenre(genre: string) {
+    if (genre) {
+      this.books = [];
+      this.bookSubscription = this.booksService.getByGenre(genre).subscribe(data => {
+        data.map((book: BookModel) => {
+          this.books.push(book);
+        })
+        this.bookSubscription.unsubscribe();
+      })
     } else {
-      this.shouldBooksBlurr = false;
+      this.bookSubscription = this.booksService.getAllBooks()
+        .subscribe(result => {
+          result.map((book: BookModel) => {
+            this.books.push(book);
+          })
+          this.changeDetector.detectChanges();
+          this.bookSubscription.unsubscribe();
+        })
     }
+
+  }
+  logAnimation(_event) {
+    console.log(_event)
   }
 }

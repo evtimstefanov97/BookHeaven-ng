@@ -10,14 +10,14 @@ import { AuthService } from "../auth/auth.service";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
-    if (token) {
+    if (token && req.method != "GET") {
       req = req.clone({
         url: `${req.url}?auth=${token}`
       });

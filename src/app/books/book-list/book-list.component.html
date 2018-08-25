@@ -9,16 +9,24 @@
       tertiaryColour: '#ffffff'
    }">
   </ngx-loading>
-  <div class="row" [class.visible]="contentPrinted" [@stagger]>
-    <div *ngFor="let item of books | async;let last = last;trackBy:tbFn">
-      <app-book-preview [@fade] [model]="item" (blurEvent)="blurrBooks($event)" [shouldBlur]="shouldBooksBlurr">
+  <div class="row">
+    <div class="genres">
+      <label for="name">Genre</label>
+      <ng-select [items]="genres$ | async" name="genres" bindLabel="name" bindValue="name" (change)="getByGenre($event)">
+      </ng-select>
+    </div>
+  </div>
+
+  <div class="row" [@listAnimation]="books.length">
+    <div *ngFor="let item of books;trackBy:tbFn">
+      <app-book-preview [model]="item">
 
       </app-book-preview>
-
-      <ng-container *ngIf="last && !contentPrinted">
-        {{ onContentPrinted() }}
-      </ng-container>
     </div>
-
   </div>
+</div>
+<div class="jumbotron" *ngIf="books.length==0 && booksLoaded" style="width: 70%;
+margin-left: 17%;">
+  <h1 class="display-4">No books found with selected Genre!</h1>
+  <hr class="my-4">
 </div>

@@ -1,3 +1,4 @@
+import { BookEditSharedService } from './books/shared-service/book-edit-shared.service';
 import { TokenInterceptor } from "./interceptors/token.interceptor";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
@@ -17,6 +18,9 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { VirtualScrollModule } from 'angular2-virtual-scroll';
 import { BookEditComponent } from "./books/book-edit/book-edit.component";
 import { BookDetailsComponent } from './books/book-details/book-details.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { UsersListComponent } from './admin/users-list/users-list.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,8 @@ import { BookDetailsComponent } from './books/book-details/book-details.componen
     BookPreviewComponent,
     BookCreateComponent,
     BookEditComponent,
-    BookDetailsComponent
+    BookDetailsComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,8 @@ import { BookDetailsComponent } from './books/book-details/book-details.componen
     FormsModule,
     AppRoutingModule,
     AuthModule,
+    NgSelectModule,
+    MatTableModule,
     VirtualScrollModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.wanderingCubes,
@@ -52,7 +59,8 @@ import { BookDetailsComponent } from './books/book-details/book-details.componen
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    BookEditSharedService
   ],
   bootstrap: [AppComponent]
 })

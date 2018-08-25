@@ -37,6 +37,15 @@
         <div class="row">
           <div class="col-6" style="margin-left: 25%">
             <div class="form-group">
+              <label for="name">Genre</label>
+              <ng-select [items]="genres$ | async" name="genres" bindLabel="name" bindValue="name" [(ngModel)]="bindingModel.Genre">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6" style="margin-left: 25%">
+            <div class="form-group">
               <label for="imagePath">Image URL</label>
               <input required type="text" id="imagePath" name="imagePath" [(ngModel)]="bindingModel.ImageUrl" class="form-control">
             </div>
@@ -48,7 +57,10 @@
           </div>
         </div>
         <hr>
-        <button class="btn btn-primary" [disabled]="f.invalid" type="submit">Create</button>
+        <br/>
+        <button class="btn btn-success" [disabled]="f.invalid" type="submit">Create</button> |
+        <button class="btn btn-primary" routerLink="/books/list">Back</button>
+        <hr>
       </form>
     </div>
   </div>

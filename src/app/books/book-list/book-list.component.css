@@ -3,3 +3,25 @@
         max-width: 1903px !important;
     }
   }
+
+  @media (max-width: 1200px){
+      .genres{
+          width: 30%;
+          margin-left: 35%;
+
+      }
+  }
+
+  @media (max-width: 900px){
+    .genres{
+        width: 40%;
+        margin-left: 35%;
+    }
+}
+
+@media (min-width: 1200px){
+    .genres{
+        width: 18%;
+        margin-left: 40%;
+    }
+}

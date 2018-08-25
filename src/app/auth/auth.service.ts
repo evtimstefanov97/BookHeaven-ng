@@ -1,3 +1,5 @@
+import { UserPayload } from './models/UserPayload';
+import { User } from './models/User';
 import { map } from 'rxjs/internal/operators';
 import { Router } from '@angular/router';
 import { Injectable } from "@angular/core";
@@ -5,9 +7,11 @@ import * as firebase from 'firebase';
 import { ToastrService } from "ngx-toastr";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { IUser } from './interfaces/IUser';
 
 
 const adminUrl = 'https://book-heaven.firebaseio.com/userAdmins/';
+const usersUrl = 'https://book-heaven.firebaseio.com/userIds/';
 
 @Injectable({
   providedIn: "root"
@@ -33,8 +37,10 @@ export class AuthService {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(data => {
-        this.toastr.success("Signed Up", "Success");
-        this.router.navigate(["/auth/signin"]);
+        this.saveUser(data.user.uid, data.user.email).subscribe(() => {
+          this.toastr.success("Signed Up", "Success");
+          this.router.navigate(["/auth/signin"]);
+        })
       })
       .catch(err => {
         this.toastr.error(err.message, "Warning");
@@ -57,7 +63,6 @@ export class AuthService {
             })
             .then(async () => {
               await this.isAdmin();
-              localStorage.setItem('admin', 'true');
               this.toastr.success("Logged In", "Success");
             })
         })
@@ -124,9 +129,66 @@ export class AuthService {
           return false
         }
       })).subscribe(result => {
+        if (result) {
+          localStorage.setItem('admin', 'true');
+        }
         this.admin = result;
       })
 
   }
+  saveUser(id: string, email: string): Observable<Object> {
+    return this.http.post(`${usersUrl}.json`,
+      {
+        ID: id,
+        Email: email,
+        Joined: new Date(),
+        BooksCreated: 0,
+        UserName: email.split('@')[0]
+      });
+  }
+  getUsers(): Observable<IUser[]> {
+    return this.http.get(`${usersUrl}.json`)
+      .pipe(map((res: Response) => {
+        const ids = Object.keys(res);
+        const users: IUser[] = [];
+        for (const i of ids) {
+          users.push(
+            new User(
+              i,
+              res[i].UserName,
+              res[i].Email,
+              new Date(res[i].Joined),
+              res[i].BooksCreated
+            )
+          )
+        }
+        return users;
+      }));
+  }
 
+  getUserById(id: string): Observable<UserPayload> {
+    return this.http.get(`${usersUrl}.json?orderBy="ID"&equalTo="${id}"`)
+      .pipe(map((res: Response) => {
+        let key = Object.keys(res)[0]
+        let user: IUser;
+        user = new User(
+          res[key]["ID"],
+          res[key]["UserName"],
+          res[key]["Email"],
+          new Date(res[key]["Joined"]),
+          res[key]["BooksCreated"]
+        )
+        return new UserPayload(key, user);
+      }));
+  }
+
+
+  updateUserBooksCreated(userFireBaseObjectId: string, userBody): Observable<Object> {
+    const body = {
+      [userFireBaseObjectId]: userBody
+    }
+
+    return this.http.patch(`${usersUrl}.json`, body);
+
+  }
 }

@@ -1,6 +1,14 @@
 
 
-
+.addedInfo{
+  margin-left: 15px;
+  font-family: serif;
+  word-wrap: break-word;
+  display: block;
+  width: 140px;
+  font-style: italic;
+  color: black;
+}
   p{
     margin-bottom: 4px !important;
   }
@@ -31,6 +39,7 @@
   
   .bookTitle{
     height: 70px !important;
+    color: #AA8034;
   }
 
   .card *:hover{

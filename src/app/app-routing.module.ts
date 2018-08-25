@@ -9,6 +9,7 @@ import { NgModel } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BookStartComponent } from './books/book-start/book-start.component';
 import { AuthGuard } from './auth/auth.guard';
+import { UsersListComponent } from './admin/users-list/users-list.component';
 
 const routes: Route[] = [
     {
@@ -21,9 +22,15 @@ const routes: Route[] = [
         path: 'books', children: [
             { path: '', pathMatch: 'full', component: BookStartComponent },
             { path: 'create', pathMatch: 'full', component: BookCreateComponent, canActivate: [AuthGuard] },
-            { path: 'details/:id', pathMatch: 'full', component: BookDetailsComponent, canActivate: [AuthGuard] },
+            { path: 'details/:id', pathMatch: 'full', component: BookDetailsComponent },
             { path: 'edit/:id', pathMatch: 'full', component: BookEditComponent, canActivate: [AuthGuard] },
-            { path: 'list', pathMatch: 'full', component: BookListComponent, canActivate: [AuthGuard] }
+            { path: 'list', pathMatch: 'full', component: BookListComponent }
+        ]
+    },
+    {
+        path: 'admin', children: [
+            { path: 'users', pathMatch: 'full', component: UsersListComponent, canActivate: [AuthGuard] }
+
         ]
     },
     {

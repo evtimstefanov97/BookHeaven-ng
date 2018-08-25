@@ -1,3 +1,5 @@
+@import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 body{
   background: url(background.jpg) no-repeat center center fixed; 
@@ -5,6 +7,15 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+a{
+  color: black !important
+}
+.ng-dropdown-panel{
+  left: 0px !important;
+}
+.ng-value{
+  font-size: 25px;
 }
 .App {
     text-align: center;
