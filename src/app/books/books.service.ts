@@ -31,49 +31,57 @@ export class BooksService {
     getAllBooks(): Observable<BookModel[]> {
         return this.http.get(`${booksUrl}.json`)
             .pipe(map((res: Response) => {
-                const ids = Object.keys(res);
-                const books: BookModel[] = [];
-                for (const i of ids) {
-                    books.push(
-                        new BookModel(
-                            res[i].Title,
-                            res[i].Description,
-                            res[i].Author,
-                            res[i].Published,
-                            res[i].Genre,
-                            res[i].ImageUrl,
-                            res[i].CreatorName,
-                            !!res[i].CreatedOn && new Date(res[i].CreatedOn) || null,
-                            i,
-                            res[i].CreatorName
+                if (res) {
+                    const ids = Object.keys(res);
+                    const books: BookModel[] = [];
+                    for (const i of ids) {
+                        books.push(
+                            new BookModel(
+                                res[i].Title,
+                                res[i].Description,
+                                res[i].Author,
+                                res[i].Published,
+                                res[i].Genre,
+                                res[i].ImageUrl,
+                                res[i].CreatorName,
+                                !!res[i].CreatedOn && new Date(res[i].CreatedOn) || null,
+                                i,
+                                res[i].CreatorName
+                            )
                         )
-                    )
+                    }
+                    return books;
+                } else {
+                    return [];
                 }
-                return books;
+
             }));
     }
     getByGenre(genre: string): Observable<BookModel[]> {
         return this.http.get(`${booksUrl}.json?orderBy="Genre"&equalTo="${genre}"`)
             .pipe(map((res: Response) => {
-                const ids = Object.keys(res);
-                const books: BookModel[] = [];
-                for (const i of ids) {
-                    books.push(
-                        new BookModel(
-                            res[i].Title,
-                            res[i].Description,
-                            res[i].Author,
-                            res[i].Published,
-                            res[i].Genre,
-                            res[i].ImageUrl,
-                            res[i].CreatorName,
-                            !!res[i].CreatedOn && new Date(res[i].CreatedOn) || null,
-                            i,
-                            res[i].CreatorName
+                if (res) {
+                    const ids = Object.keys(res);
+                    const books: BookModel[] = [];
+                    for (const i of ids) {
+                        books.push(
+                            new BookModel(
+                                res[i].Title,
+                                res[i].Description,
+                                res[i].Author,
+                                res[i].Published,
+                                res[i].Genre,
+                                res[i].ImageUrl,
+                                res[i].CreatorName,
+                                !!res[i].CreatedOn && new Date(res[i].CreatedOn) || null,
+                                i,
+                                res[i].CreatorName
+                            )
                         )
-                    )
+                    }
+                    return books;
                 }
-                return books;
+                return [];
             }));
     }
 

@@ -20,7 +20,7 @@ import { BookEditComponent } from "./books/book-edit/book-edit.component";
 import { BookDetailsComponent } from './books/book-details/book-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UsersListComponent } from './admin/users-list/users-list.component';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatPaginatorModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { MatTableModule } from '@angular/material/table';
     AuthModule,
     NgSelectModule,
     MatTableModule,
+    MatPaginatorModule,
     VirtualScrollModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.wanderingCubes,
